@@ -87,19 +87,19 @@ app.put('/items/:id', async (req, res) => {
 
         if (name) {
             fieldsToUpdate.push('name = ?');
-            values.push(title);
+            values.push(name);
         }
         if (categoryId) {
             fieldsToUpdate.push('categoryId = ?');
-            values.push(authorId);
+            values.push(categoryId);
         }
         if (price) {
             fieldsToUpdate.push('price = ?');
-            values.push(genreId);
+            values.push(price);
         }
         if (quantity) {
             fieldsToUpdate.push('quantity = ?');
-            values.push(pages);
+            values.push(quantity);
         }
 
 
