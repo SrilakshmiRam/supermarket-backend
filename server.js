@@ -67,7 +67,7 @@ app.delete('/items/:id',async(req,res)=>{
     const {id}=req.params
     try{
         itemDeleteQuery=`delete from items where item_id=?;`
-        await db.run(bookDeleteQuery,[id])
+        await db.run(itemDeleteQuery,[id])
         res.status(201).json({message:'item deleted successfully'})
     }catch (e){
         console.error('Error while inserting', e)
