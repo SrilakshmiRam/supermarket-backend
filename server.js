@@ -89,7 +89,7 @@ app.put('/items/:id', async (req, res) => {
             values.push(name);
         }
         if (categoryId) {
-            fieldsToUpdate.push('categoryId = ?');
+            fieldsToUpdate.push('category_id = ?');
             values.push(categoryId);
         }
         if (price) {
