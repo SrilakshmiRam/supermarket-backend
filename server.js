@@ -78,10 +78,9 @@ app.delete('/items/:id',async(req,res)=>{
 
 app.put('/items/:id', async (req, res) => {
     const { id } = req.params;
-    const {name,categoryId,price,quantity}=req.body;
+    const { name, categoryId, price, quantity } = req.body;
 
     try {
-        // Dynamically build the SET clause
         const fieldsToUpdate = [];
         const values = [];
 
@@ -102,26 +101,28 @@ app.put('/items/:id', async (req, res) => {
             values.push(quantity);
         }
 
-
-        // Check if there are fields to update
         if (fieldsToUpdate.length === 0) {
             return res.status(400).json({ message: 'No fields to update' });
         }
 
-        // Add the book ID to the values array for the WHERE clause
         values.push(id);
 
-        // Construct the SQL query
         const itemUpdateQuery = `
             UPDATE items 
             SET ${fieldsToUpdate.join(', ')}
             WHERE item_id = ?;
         `;
 
-        await db.run(itemUpdateQuery, values);
+        console.log('SQL Query:', itemUpdateQuery); // Debug: log SQL query
+        console.log('Values:', values); // Debug: log values
 
-        // Return status 201 to indicate that the book was successfully updated
-        res.status(201).json({ message: 'book updated successfully' });
+        const result = await db.run(itemUpdateQuery, values);
+
+        if (result.changes === 0) {
+            return res.status(404).json({ message: 'Item not found' });
+        }
+
+        res.status(200).json({ message: 'Book updated successfully' });
     } catch (e) {
         console.error('Error while updating', e);
         res.status(500).json({ message: 'Failed to update the book' });
